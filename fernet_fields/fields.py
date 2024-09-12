@@ -74,6 +74,8 @@ class EncryptedField(models.Field):
     def from_db_value(self, value, expression, connection, *args):
         if value is not None:
             value = bytes(value)
+            if value == b'':
+                return ''
             return self.to_python(force_str(self.fernet.decrypt(value)))
 
     @cached_property
